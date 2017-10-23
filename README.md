@@ -1,8 +1,8 @@
-#Example of the technology stack used for CTS:
+# Example of the technology stack used for CTS:
 
 	nodejs, socket.io, celery, django, redis
 
-#Run with docker:
+# Run with docker:
 
 	$ cd ./stack_example
 	$ docker-compose up
@@ -14,7 +14,7 @@ When I'm on my windows machine, I have to use the docker-machine IP:
 (for me): http://192.168.99.100/app/testing
 
 
-#About:
+# About:
 When the "Send message" button is clicked, the frontend sends a message to nodejs via socket.io.
 Then, that message is passed to the celery worker, which sends a message back to nodejs saying
 that it received the message. This message then gets pushed from nodejs back to the user, which is
