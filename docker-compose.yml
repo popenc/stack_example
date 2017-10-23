@@ -1,0 +1,67 @@
+version: '2'
+volumes:
+  collected_static: {}
+services:
+
+  # Django Frontend
+  django_project:
+    build: .
+    image: stack-django
+    expose:
+      - "8080"
+    volumes:
+      - collected_static:/src/collected_static
+      - .:/src
+    environment:
+      - REDIS_HOSTNAME=redis
+      - DOCKER_HOSTNAME=${HOSTNAME}
+    links:
+      - redis
+
+  # Redis (message broker)
+  redis:
+    image: redis:latest
+    hostname: redis
+    expose:
+      - "6379"
+
+  # Nodejs Server
+  nodejs_server:
+    build: ./nodejs_code
+    image: stack-nodejs
+    expose:
+      - "4000"
+    environment:
+      - NODEJS_HOST=cts_nodejs
+      - NODEJS_PORT=4000
+      - REDIS_HOSTNAME=redis
+      - REDIS_PORT=6379
+    links:
+      - redis
+      - celery_worker
+
+  # Celery Worker
+  celery_worker:
+    build: ./celery_code
+    image: stack-celery
+    command: celery worker -A tasks -Q testing -l info
+    links:
+      - redis
+      - django_project
+    environment:
+      - REDIS_HOSTNAME=redis
+      - DOCKER_HOSTNAME=${HOSTNAME}
+
+  # Nginx Server
+  nginx:
+    restart: always
+    build: ./nginx_code
+    image: stack-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - django_project:uwsgi_django
+      - nodejs_server:nodejs_server
+    volumes_from:
+      - django_project:ro
