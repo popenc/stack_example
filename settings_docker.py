@@ -53,14 +53,7 @@ if not os.environ.get('UBERTOOL_REST_SERVER'):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
-try:
-    #    SECRET_KEY= os.environ.get('DOCKER_SECRET_KEY')
-    with open('secret_key_django_dropbox.txt') as f:
-        SECRET_KEY = f.read().strip()
-except IOError as e:
-    print("Secret file not set as env variable")
-    # down_low = 'Shhhhhhhhhhhhhhh'
-    # SECRET_KEY = down_low
+SECRET_KEY = "shhhhhhh"
 
 try:
     HOSTNAME = os.environ.get('DOCKER_HOSTNAME')
