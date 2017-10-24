@@ -14,7 +14,6 @@ services:
       - .:/src
     environment:
       - REDIS_HOSTNAME=redis
-      - DOCKER_HOSTNAME=${HOSTNAME}
     links:
       - redis
 
