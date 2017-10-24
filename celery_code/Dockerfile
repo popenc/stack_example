@@ -1,4 +1,4 @@
-# Builds an image for CTS calculator celery worker
+# Builds an image for qed celery worker
 
 #FROM python:3
 FROM quanted/qed_py3

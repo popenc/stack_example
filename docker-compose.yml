@@ -57,8 +57,8 @@ services:
     build: ./nginx_code
     image: stack-nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      # - "443:443"
     links:
       - django_project:uwsgi_django
       - nodejs_server:nodejs_server
